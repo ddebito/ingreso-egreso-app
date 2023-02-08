@@ -13,7 +13,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { AppRoutingModule } from './app-routing-module';
 
-import {ReactiveFormsModule} from '@angular/forms'
+import {ReactiveFormsModule} from '@angular/forms';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -23,6 +23,10 @@ import { environment } from 'src/environments/environment';
 
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth,getAuth } from '@angular/fire/auth';
+
+import {StoreModule} from '@ngrx/store'
+import {StoreDevtoolsModule} from '@ngrx/store-devtools'
+import { appReducers } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -46,7 +50,12 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
     AngularFirestoreModule,
     AngularFireAuthModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth( () => getAuth() )
+    provideAuth( () => getAuth() ),
+    StoreModule.forRoot( appReducers),
+    StoreDevtoolsModule.instrument({
+      maxAge:25,
+      logOnly: environment.production
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
